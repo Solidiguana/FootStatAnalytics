@@ -10,7 +10,7 @@
 
 ---
 
-## 2.)
+## 2.
 
 The system uses **PostgreSQL** for persistent storage.
 
