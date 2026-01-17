@@ -18,5 +18,3 @@ public class StatService {
         return statRepo.save(stat) ? String.format("Saved! Rating: %.2f", rating) : "DB error";
     }
 }
-public class StatService {
-}

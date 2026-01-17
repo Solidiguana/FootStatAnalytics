@@ -21,5 +21,3 @@ public class AuthService {
         return userRepo.save(newUser) ? "Succeed" : "DB error";
     }
 }
-public class AuthService {
-}

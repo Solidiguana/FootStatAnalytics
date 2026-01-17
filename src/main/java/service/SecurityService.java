@@ -11,5 +11,3 @@ public class SecurityService {
         return false;
     }
 }
-public class SecurityService {
-}
