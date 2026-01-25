@@ -5,7 +5,7 @@ import entity.PlayerStat;
 import repository.interfaces.IPlayerRepository;
 import repository.interfaces.IStatRepository;
 import service.logic.StrategyFactory;
-import service.logic.interfaces.RatingStrategy;
+import service.logic.factory.interfaces.RatingStrategy;
 
 public class StatService {
     private final IStatRepository statRepo;

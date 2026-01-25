@@ -1,6 +1,6 @@
 package service.logic;
 
-import service.logic.interfaces.RatingStrategy;
+import service.logic.factory.interfaces.RatingStrategy;
 
 public class MidfielderStrategy implements RatingStrategy {
     @Override
