@@ -1,10 +1,15 @@
 package service;
 
 import entity.User;
-import repository.UserRepository;
+import repository.interfaces.IUserRepository;
 
 public class AuthService {
-    private UserRepository userRepo = new UserRepository();
+    private final IUserRepository userRepo;
+
+    public AuthService(IUserRepository userRepo) {
+        this.userRepo = userRepo;
+    }
+
 
     public User login(String username, String password) {
         User user = userRepo.findByUsername(username);

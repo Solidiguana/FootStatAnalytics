@@ -2,14 +2,14 @@ package repository;
 
 import config.DatabaseConnection;
 import entity.Match;
-import repository.interfaces.IRepository;
+import repository.interfaces.IMatchRepository;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MatchRepository implements IRepository<Match> {
-    private Connection con = (Connection) DatabaseConnection.getInstance().getConnection();
+public class MatchRepository implements IMatchRepository {
+    private Connection con =  DatabaseConnection.getInstance().getConnection();
 
     @Override
     public List<Match> findAll() {
@@ -52,7 +52,7 @@ public class MatchRepository implements IRepository<Match> {
         } catch (SQLException e) { return false; }
     }
 
-
+    @Override
     public Match mapRow(ResultSet rs) throws SQLException {
         return new Match(
                 rs.getInt("id"),

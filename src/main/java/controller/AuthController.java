@@ -4,8 +4,13 @@ import service.AuthService;
 import java.util.Scanner;
 
 public class AuthController {
-    private AuthService authService = new AuthService();
+    private final AuthService authService;
     private Scanner scanner = new Scanner(System.in);
+
+    public AuthController(AuthService authService) {
+        this.authService = authService;
+    }
+
 
     public User login() {
         System.out.println("\n--- LOGIN ---");

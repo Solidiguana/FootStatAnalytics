@@ -14,7 +14,6 @@ public class Player extends BaseEntity {
     }
 
     public Player(String name, String position, int teamId) {
-        super();
         this.name = name;
         this.position = position;
         this.teamId = teamId;

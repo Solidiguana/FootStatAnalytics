@@ -2,14 +2,14 @@ package repository;
 
 import config.DatabaseConnection;
 import entity.Player;
-import repository.interfaces.IRepository;
+import repository.interfaces.IPlayerRepository;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PlayerRepository implements IRepository<Player> {
-    private Connection con = (Connection) DatabaseConnection.getInstance().getConnection();
+public class PlayerRepository implements IPlayerRepository {
+    private Connection con = DatabaseConnection.getInstance().getConnection();
 
     @Override
     public List<Player> findAll() {
@@ -52,7 +52,37 @@ public class PlayerRepository implements IRepository<Player> {
                 rs.getInt("id"),
                 rs.getString("name"),
                 rs.getString("position"),
-                rs.getString("team_name") // Берет данные из алиаса JOIN-а
+                rs.getString("team_name")
         );
+    }
+
+    @Override
+    public List<Player> findByTeam(int teamId) {
+        List<Player> list = new ArrayList<>();
+        String sql = "SELECT p.id, p.name, p.position, t.name as team_name FROM players p JOIN teams t ON p.team_id = t.id WHERE p.team_id=?";
+
+        try (PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setInt(1, teamId);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                list.add(mapRow(rs));
+            }
+        } catch (SQLException e) { e.printStackTrace(); }
+        return list;
+    }
+
+    @Override
+    public List<Player> findByPosition(String position) {
+        List<Player> list = new ArrayList<>();
+        String sql = "SELECT p.id, p.name, p.position, t.name as team_name FROM players p JOIN teams t ON p.team_id = t.id WHERE p.position=?";
+
+        try (PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setString(1, position);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                list.add(mapRow(rs));
+            }
+        } catch (SQLException e) { e.printStackTrace(); }
+        return list;
     }
 }

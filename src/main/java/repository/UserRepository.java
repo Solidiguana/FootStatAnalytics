@@ -2,24 +2,14 @@ package repository;
 
 import config.DatabaseConnection;
 import entity.User;
-import repository.interfaces.IRepository;
+import repository.interfaces.IUserRepository;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UserRepository implements IRepository<User> {
-    private Connection con = (Connection) DatabaseConnection.getInstance().getConnection();
-
-    public User findByUsername(String username) {
-        String sql = "SELECT * FROM users WHERE username = ?";
-        try (PreparedStatement pstmt = con.prepareStatement(sql)) {
-            pstmt.setString(1, username);
-            ResultSet rs = pstmt.executeQuery();
-            if (rs.next()) return mapRow(rs);
-        } catch (SQLException e) { e.printStackTrace(); }
-        return null;
-    }
+public class UserRepository implements IUserRepository {
+    private Connection con = DatabaseConnection.getInstance().getConnection();
 
     @Override
     public boolean save(User user) {
@@ -49,6 +39,17 @@ public class UserRepository implements IRepository<User> {
         String sql = "SELECT * FROM users WHERE id = ?";
         try (PreparedStatement pstmt = con.prepareStatement(sql)) {
             pstmt.setInt(1, id);
+            ResultSet rs = pstmt.executeQuery();
+            if (rs.next()) return mapRow(rs);
+        } catch (SQLException e) { e.printStackTrace(); }
+        return null;
+    }
+
+    @Override
+    public User findByUsername(String username) {
+        String sql = "SELECT * FROM users WHERE username = ?";
+        try (PreparedStatement pstmt = con.prepareStatement(sql)) {
+            pstmt.setString(1, username);
             ResultSet rs = pstmt.executeQuery();
             if (rs.next()) return mapRow(rs);
         } catch (SQLException e) { e.printStackTrace(); }

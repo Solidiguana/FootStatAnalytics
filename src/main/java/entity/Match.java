@@ -16,7 +16,6 @@ public class Match extends BaseEntity {
     }
 
     public Match(int homeTeamId, int awayTeamId, Date matchDate) {
-        super();
         this.homeTeamId = homeTeamId;
         this.awayTeamId = awayTeamId;
         this.matchDate = matchDate;

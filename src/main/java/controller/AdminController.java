@@ -11,6 +11,8 @@ public class AdminController {
     private MatchRepository matchRepo = new MatchRepository();
     private Scanner scanner = new Scanner(System.in);
 
+
+
     public void createTeam(User user) {
         if (!SecurityService.hasAccess(user, "ADMIN")){
             System.out.print("NOT ALLOWED");

@@ -1,5 +1,8 @@
 import controller.*;
 import entity.User;
+import repository.UserRepository;
+import repository.interfaces.IUserRepository;
+import service.AuthService;
 import service.SecurityService;
 import java.util.Scanner;
 
@@ -7,7 +10,9 @@ public class Main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
-        AuthController authController = new AuthController();
+        IUserRepository userRepo = new UserRepository();
+        AuthService authService = new AuthService(userRepo);
+        AuthController authController = new AuthController(authService);
         AdminController adminController = new AdminController();
         PublicController publicController = new PublicController();
         StatController statController = new StatController();
