@@ -1,27 +1,33 @@
 package controller;
-import repository.*;
-import entity.*;
+
+import entity.Match;
+import entity.Player;
+import entity.PlayerStat;
+import entity.Team;
+import service.PublicService;
+import java.util.List;
 import java.util.Scanner;
 
 public class PublicController {
-    private PlayerRepository playerRepo = new PlayerRepository();
-    private TeamRepository teamRepo = new TeamRepository();
-    private MatchRepository matchRepo = new MatchRepository();
-    private StatRepository statRepo = new StatRepository();
+    private final PublicService publicService;
+    private final Scanner scanner;
 
-    private Scanner scanner = new Scanner(System.in);
+    public PublicController(PublicService publicService, Scanner scanner) {
+        this.publicService = publicService;
+        this.scanner = scanner;
+    }
 
     public void viewRoster() {
         System.out.println("\n--- PLAYERS ---");
-        playerRepo.findAll().forEach(System.out::println);
+        publicService.getAllPlayers().forEach(System.out::println);
     }
     public void viewTeams() {
         System.out.println("\n--- TEAMS ---");
-        teamRepo.findAll().forEach(System.out::println);
+        publicService.getAllTeams().forEach(System.out::println);
     }
     public void viewMatches() {
         System.out.println("\n--- MATCHES ---");
-        matchRepo.findAll().forEach(System.out::println);
+        publicService.getAllMatches().forEach(System.out::println);
     }
     public void findTeamById() {
         System.out.println("\n--- FIND TEAM ---");
@@ -29,7 +35,7 @@ public class PublicController {
             System.out.print("Enter Team ID: ");
             int id = scanner.nextInt();
 
-            Team team = teamRepo.findById(id);
+            Team team = publicService.getTeamById(id);
             if (team != null) {
                 System.out.println("Found: " + team);
             } else {
@@ -46,7 +52,7 @@ public class PublicController {
             System.out.print("Enter Player ID: ");
             int id = scanner.nextInt();
 
-            Player player = playerRepo.findById(id);
+            Player player = publicService.getPlayerById(id);
             if (player != null) {
                 System.out.println("Found: " + player);
             } else {
@@ -63,7 +69,7 @@ public class PublicController {
             System.out.print("Enter Match ID: ");
             int id = scanner.nextInt();
 
-            Match match = matchRepo.findById(id);
+            Match match = publicService.getMatchById(id);
             if (match != null) {
                 System.out.println("Found: " + match);
             } else {
@@ -80,7 +86,7 @@ public class PublicController {
             System.out.print("Enter Stat Record ID: ");
             int id = scanner.nextInt();
 
-            PlayerStat stat = statRepo.findById(id);
+            PlayerStat stat = publicService.getStatById(id);
             if (stat != null) {
                 System.out.println("Found Record: " + stat);
             } else {
@@ -89,5 +95,26 @@ public class PublicController {
         } catch (NumberFormatException e) {
             System.out.println("Error: ID must be a number.");
         }
+    }
+    public void searchPlayersByTeam() {
+        System.out.println("\n--- SEARCH BY TEAM NAME ---");
+        try {
+            System.out.print("Enter team name: ");
+            String teamName = scanner.next();
+
+            var results = publicService.getPlayersByTeamFiltered(teamName);
+            if (results!=null) {
+                System.out.println(teamName+ " roster: ");
+                results.forEach(System.out::println);
+            } else {
+                System.out.println("No players found.");
+            }
+        }  catch (NumberFormatException e) {
+            System.out.println("Error: team name must be a string.");
+        }
+    }
+    public void viewAllStats() {
+        System.out.println("\n--- ALL PLAYER STATISTICS ---");
+        publicService.getAllStats().forEach(System.out::println);
     }
 }

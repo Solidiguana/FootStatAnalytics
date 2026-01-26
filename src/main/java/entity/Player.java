@@ -22,6 +22,7 @@ public class Player extends BaseEntity {
     public String getName() { return name; }
     public String getPosition() { return position; }
     public int getTeamId() { return teamId; }
+    public String getTeamName() { return teamName; }
 
     @Override
     public String toString() {

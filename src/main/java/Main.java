@@ -1,53 +1,71 @@
 import controller.*;
 import entity.User;
-import repository.UserRepository;
-import repository.interfaces.IUserRepository;
-import service.AuthService;
-import service.SecurityService;
+import repository. *;
+import repository.interfaces.*;
+import service.*;
+
 import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-
         IUserRepository userRepo = new UserRepository();
+        ITeamRepository teamRepo = new TeamRepository();
+        IPlayerRepository playerRepo = new PlayerRepository();
+        IMatchRepository matchRepo = new MatchRepository();
+        IStatRepository statRepo = new StatRepository();
+
         AuthService authService = new AuthService(userRepo);
-        AuthController authController = new AuthController(authService);
-        AdminController adminController = new AdminController();
-        PublicController publicController = new PublicController();
-        StatController statController = new StatController();
+        AdminService adminService = new AdminService(teamRepo, playerRepo, matchRepo);
+        PublicService publicService = new PublicService(playerRepo, teamRepo, matchRepo, statRepo);
+        StatService statService = new StatService(statRepo, playerRepo);
+
+        AuthController authController = new AuthController(authService, scanner);
+        AdminController adminController = new AdminController(adminService, scanner);
+        PublicController publicController = new PublicController(publicService, scanner);
+        StatController statController = new StatController(statService, scanner);
 
         User currentUser = null;
-        System.out.println("FOOTSTAT ANALYTICS V1.0");
+
+        System.out.println("==========================================");
+        System.out.println("          FOOTSTAT ANALYTICS V2.0         ");
+        System.out.println("==========================================");
 
         while (currentUser == null) {
             System.out.println("\n1. Login\n2. Registration\n0. Exit");
             System.out.print("Enter your choice: ");
             int choice = scanner.nextInt();
-            if (choice == 1) currentUser = authController.login();
+            if (choice == 1) {
+                currentUser = authController.login();
+            }
             else if (choice == 2) authController.register();
-            else {
+            else if (choice == 0){
                 System.out.println("Bye-bye");
                 return;
+            }
+            else {
+                System.out.println("Invalid choice");
             }
         }
 
         System.out.println("\nWelcome, " + currentUser.getUsername() + " (" + currentUser.getRole() + ")");
 
         while (true) {
-            System.out.println("\n--- MENU ---\n ---");
+            System.out.println("\n========= MAIN MENU =========");
             System.out.println("1. View all players");
             System.out.println("2. View all teams");
             System.out.println("3. View all mathces");
             System.out.println("4. Search specific data by ID");
+            System.out.println("5. Filter Players by Exact Team Name");
+            System.out.println("6. View All Statistics");
 
             if (SecurityService.hasAccess(currentUser, "ADMIN", "ANALYST")) {
-                System.out.println("5. Input Stats");
+                System.out.println("7. Input Stats");
             }
             if (SecurityService.hasAccess(currentUser, "ADMIN")) {
-                System.out.println("6. ADD Team");
-                System.out.println("7. ADD Player");
-                System.out.println("8. CREATE Match");
+                System.out.println("8. ADD Team");
+                System.out.println("9. ADD Player");
+                System.out.println("10. CREATE Match");
             }
             System.out.println("0. EXIT");
             System.out.print("> ");
@@ -76,6 +94,8 @@ public class Main {
                         try {
                             int searchMenu = scanner.nextInt();
                             switch (searchMenu) {
+                                default:
+                                    System.out.println("Invalid choice");
                                 case 1:
                                     publicController.findTeamById();
                                     break;
@@ -95,16 +115,22 @@ public class Main {
                         break;
 
                     case 5:
+                        publicController.searchPlayersByTeam();
+                        break;
+                    case 6:
+                        publicController.viewAllStats();
+                        break;
+                    case 7:
                         statController.inputStats(currentUser);
                         break;
 
-                    case 6:
+                    case 8:
                         adminController.createTeam(currentUser);
                         break;
-                    case 7:
+                    case 9:
                         adminController.createPlayer(currentUser);
                         break;
-                    case 8:
+                    case 10:
                         adminController.createMatch(currentUser);
                         break;
 

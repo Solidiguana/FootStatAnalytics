@@ -13,8 +13,10 @@ public class Team extends BaseEntity {
         this.leagueName = leagueName;
     }
 
-    public Team(String name, String city,  String leagueID) {
-        this(0, name, city, leagueID);
+    public Team(String name, String city,  int leagueId) {
+        this.name = name;
+        this.city = city;
+        this.leagueId = leagueId;
     }
 
     public String getName() { return name; }

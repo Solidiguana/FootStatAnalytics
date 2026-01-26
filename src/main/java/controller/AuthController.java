@@ -5,10 +5,11 @@ import java.util.Scanner;
 
 public class AuthController {
     private final AuthService authService;
-    private Scanner scanner = new Scanner(System.in);
+    private final Scanner scanner;
 
-    public AuthController(AuthService authService) {
+    public AuthController(AuthService authService, Scanner scanner) {
         this.authService = authService;
+        this.scanner = scanner;
     }
 
 

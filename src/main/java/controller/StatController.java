@@ -6,8 +6,13 @@ import java.util.Scanner;
 
 
 public class StatController {
-    private StatService service = new StatService();
-    private Scanner scanner = new Scanner(System.in);
+    private StatService statService;
+    private Scanner scanner;
+
+    public StatController(StatService statService, Scanner scanner) {
+        this.statService = statService;
+        this.scanner = scanner;
+    }
 
     public void inputStats(User user) {
         if (!SecurityService.hasAccess(user, "ADMIN", "ANALYST")) {
@@ -26,7 +31,7 @@ public class StatController {
             int a = scanner.nextInt();
             System.out.print("MINUTES PLAYED: ");
             int m = scanner.nextInt();
-            System.out.println(service.processStats(pid, mid, g, a, m));
+            System.out.println(statService.processStats(pid, mid, g, a, m));
         } catch (Exception e) {
             System.out.println("ERROR: enter only numbers.");
             scanner.nextLine();

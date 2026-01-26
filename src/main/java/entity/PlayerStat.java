@@ -8,8 +8,10 @@ public class PlayerStat extends BaseEntity {
     private int minutes;
     private double rating;
 
-    public PlayerStat(int id, int playerId, int matchId, int goals, int assists, int minutes, double rating) {
-        super(id);
+    private String playerName;
+    private String matchInfo;
+
+    public PlayerStat(int playerId, int matchId, int goals, int assists, int minutes, double rating) {
         this.playerId = playerId;
         this.matchId = matchId;
         this.goals = goals;
@@ -18,15 +20,23 @@ public class PlayerStat extends BaseEntity {
         this.rating = rating;
     }
 
-    public PlayerStat(int playerId, int matchId,
-                      int goals, int assists, int minutes, double rating) {
-        this(0, playerId, matchId, goals, assists, minutes, rating);
+    public PlayerStat(int id, int playerId, int matchId,
+                      int goals, int assists, int minutes, double rating,  String playerName, String matchInfo) {
+        super(id);
+        this.playerId = playerId;
+        this.matchId = matchId;
+        this.goals = goals;
+        this.assists = assists;
+        this.minutes = minutes;
+        this.rating = rating;
+        this.playerName = playerName;
+        this.matchInfo = matchInfo;
     }
 
     @Override
     public String toString() {
-        return String.format("Stat ID: %d | Match: %d | Player: %d | Goals: %d | Assists: %d | Rating: %.2f",
-                getId(), matchId, playerId, goals, assists, rating);
+        return String.format("ID:%-3d | Player: %s | Match: %-30s | G:%d A:%d | Time: %3d min | Rating: [%.2f]",
+                id, playerName, matchInfo, goals, assists, minutes, rating);
     }
 
     public int getPlayerId() { return playerId; }

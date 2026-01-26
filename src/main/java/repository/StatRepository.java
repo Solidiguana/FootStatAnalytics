@@ -63,13 +63,17 @@ public class StatRepository implements IStatRepository {
 
     @Override
     public PlayerStat mapRow(ResultSet rs) throws SQLException {
+        String MatchInfo =  rs.getString("home") + " - " + rs.getString("away");
         PlayerStat ps = new PlayerStat(
+                rs.getInt("id"),
                 rs.getInt("player_id"),
                 rs.getInt("match_id"),
                 rs.getInt("goals"),
                 rs.getInt("assists"),
                 rs.getInt("minutes_played"),
-                rs.getDouble("rating")
+                rs.getDouble("rating"),
+                rs.getString("player_name"),
+                MatchInfo
         );
         ps.setId(rs.getInt("id"));
         return ps;
