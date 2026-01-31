@@ -117,4 +117,12 @@ public class PublicController {
         System.out.println("\n--- ALL PLAYER STATISTICS ---");
         publicService.getAllStats().forEach(System.out::println);
     }
+    public void showTeamsByLeague() {
+    System.out.println("\n--- TEAMS BY LEAGUE ---");
+    publicService.getTeamsGroupedByLeague().forEach((leagueName, teams) -> {
+        System.out.println("League: " + leagueName);
+        teams.forEach(t -> System.out.println("   " + t));
+    });
+}
+
 }
