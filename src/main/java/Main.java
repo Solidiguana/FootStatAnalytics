@@ -69,6 +69,7 @@ public class Main {
                 System.out.println("11. Show Teams by League");
                 System.out.println("12. Search players by position");
                 System.out.println("13. Show top scorers");
+                System.out.println("14. Compare two players");
 
 
             }
@@ -146,6 +147,9 @@ public class Main {
                         break;
                     case 13:
                         publicController.showTopScorers();
+                        break;
+                    case 14:
+                        publicController.compareTwoPlayers();
                         break;
 
 
