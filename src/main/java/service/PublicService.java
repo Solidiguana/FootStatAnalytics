@@ -133,4 +133,13 @@ public List<Player> getTopScorers(int topN) {
 
     return topPlayers;
 }
+    import entity.PlayerStat;
+import java.util.List;
+import java.util.stream.Collectors;
+
+public List<PlayerStat> getStatsByPlayer(int playerId) {
+    return statRepo.findAll().stream()
+            .filter(stat -> stat.getPlayerId() == playerId)
+            .collect(Collectors.toList());
+}
 }
