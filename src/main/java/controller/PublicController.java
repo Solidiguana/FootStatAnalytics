@@ -124,5 +124,23 @@ public class PublicController {
         teams.forEach(t -> System.out.println("   " + t));
     });
 }
+public void searchPlayersByPosition() {
+    System.out.println("\n--- SEARCH PLAYERS BY POSITION ---");
+    try {
+        System.out.print("Enter position (e.g., Forward, Midfielder, Goalkeeper): ");
+        String pos = scanner.next();
 
+        List<Player> results = publicService.getPlayersByPosition(pos);
+
+        if (results != null && !results.isEmpty()) {
+            System.out.println("Players in position '" + pos + "':");
+            results.forEach(System.out::println);
+        } else {
+            System.out.println("No players found in this position.");
+        }
+    } catch (Exception e) {
+        System.out.println("Input error. Try again.");
+        scanner.nextLine();
+    }
+}
 }
