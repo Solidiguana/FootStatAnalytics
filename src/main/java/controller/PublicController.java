@@ -167,22 +167,21 @@ public void searchPlayersByPosition() {
     }
 }
 public void compareTwoPlayers() {
-    System.out.println("\n--- Сравнение двух игроков ---");
+    System.out.println("\n Compare two players ");
     try {
-        System.out.print("ID первого игрока: ");
+        System.out.print("First player ID: ");
         int id1 = scanner.nextInt();
-        System.out.print("ID второго игрока: ");
+        System.out.print("Second player ID: ");
         int id2 = scanner.nextInt();
 
         var player1 = publicService.getPlayerById(id1);
         var player2 = publicService.getPlayerById(id2);
 
         if (player1 == null || player2 == null) {
-            System.out.println("Ошибка: один или оба игрока не найдены.");
+            System.out.println("Error: The players not found.");
             return;
         }
-
-        // Получаем статистику игроков
+        
         List<PlayerStat> stats1 = publicService.getStatsByPlayer(id1);
         List<PlayerStat> stats2 = publicService.getStatsByPlayer(id2);
 
@@ -194,15 +193,15 @@ public void compareTwoPlayers() {
         double rating2 = stats2.stream().mapToDouble(PlayerStat::getRating).average().orElse(0);
 
         // Печатаем сравнение
-        System.out.println("\nСравнение игроков:");
+        System.out.println("\nCompare players:");
         System.out.println(player1.getName() + " | " + player2.getName());
-        System.out.println("Голы: " + goals1 + " | " + goals2);
-        System.out.println("Ассисты: " + assists1 + " | " + assists2);
-        System.out.println("Средний рейтинг: " + String.format("%.2f", rating1)
+        System.out.println("Goals: " + goals1 + " | " + goals2);
+        System.out.println("Assists: " + assists1 + " | " + assists2);
+        System.out.println("Avg rating: " + String.format("%.2f", rating1)
                            + " | " + String.format("%.2f", rating2));
 
     } catch (Exception e) {
-        System.out.println("Ошибка ввода.");
+        System.out.println("Input error.");
         scanner.nextLine();
     }
 }
