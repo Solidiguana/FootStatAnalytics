@@ -66,6 +66,8 @@ public class Main {
                 System.out.println("8. ADD Team");
                 System.out.println("9. ADD Player");
                 System.out.println("10. CREATE Match");
+                System.out.println("11. Show Teams by League");
+
             }
             System.out.println("0. EXIT");
             System.out.print("> ");
@@ -133,6 +135,10 @@ public class Main {
                     case 10:
                         adminController.createMatch(currentUser);
                         break;
+                    case 11:
+                        publicController.showTeamsByLeague();
+                         break;
+
 
                     case 0:
                         System.out.println("Bye-bye!");
