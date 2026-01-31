@@ -143,4 +143,28 @@ public void searchPlayersByPosition() {
         scanner.nextLine();
     }
 }
+
+    public void showTopScorers() {
+    System.out.println("\n--- TOP SCORERS ---");
+    try {
+        System.out.print("How many top scorers to show? ");
+        int n = scanner.nextInt();
+
+        List<Player> topPlayers = publicService.getTopScorers(n);
+        if (topPlayers.isEmpty()) {
+            System.out.println("No player stats available.");
+            return;
+        }
+
+        int rank = 1;
+        for (Player p : topPlayers) {
+            System.out.println(rank + ". " + p);
+            rank++;
+        }
+    } catch (Exception e) {
+        System.out.println("Input error.");
+        scanner.nextLine();
+    }
+}
+
 }
