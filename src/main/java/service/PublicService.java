@@ -72,4 +72,13 @@ public class PublicService {
     public PlayerStat getStatById(int id) {
         return statRepo.findById(id);
     }
+    public Map<String, List<Team>> getTeamsGroupedByLeague() {
+    List<Team> allTeams = teamRepo.findAll();
+
+    return allTeams.stream()
+            .collect(Collectors.groupingBy(
+                t -> t.getLeagueName() != null ? t.getLeagueName() : "Unknown League"
+            ));
+}
+
 }
