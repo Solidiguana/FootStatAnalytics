@@ -106,5 +106,31 @@ public class PublicService {
     }
     return filteredList;
 }
+public List<Player> getTopScorers(int topN) {
+    // Get all stats
+    List<PlayerStat> allStats = statRepo.findAll();
+    Map<Integer, Integer> goalsMap = new HashMap<>(); // playerId -> total goals
 
+    // Sum goals for each player
+    for (PlayerStat stat : allStats) {
+        goalsMap.put(stat.getPlayerId(),
+                     goalsMap.getOrDefault(stat.getPlayerId(), 0) + stat.getGoals());
+    }
+
+    // Sort playerIds by total goals descending
+    List<Integer> topPlayerIds = goalsMap.entrySet().stream()
+            .sorted((a, b) -> b.getValue() - a.getValue())
+            .limit(topN)
+            .map(Map.Entry::getKey)
+            .collect(Collectors.toList());
+
+    // Fetch Player objects
+    List<Player> topPlayers = new ArrayList<>();
+    for (int pid : topPlayerIds) {
+        Player player = playerRepo.findById(pid);
+        if (player != null) topPlayers.add(player);
+    }
+
+    return topPlayers;
+}
 }
