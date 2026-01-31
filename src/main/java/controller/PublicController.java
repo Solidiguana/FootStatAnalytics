@@ -167,43 +167,42 @@ public void searchPlayersByPosition() {
     }
 }
 public void compareTwoPlayers() {
-    System.out.println("\n--- COMPARE TWO PLAYERS ---");
+    System.out.println("\n--- Сравнение двух игроков ---");
     try {
-        System.out.print("Enter first player ID: ");
+        System.out.print("ID первого игрока: ");
         int id1 = scanner.nextInt();
-        System.out.print("Enter second player ID: ");
+        System.out.print("ID второго игрока: ");
         int id2 = scanner.nextInt();
 
         var player1 = publicService.getPlayerById(id1);
         var player2 = publicService.getPlayerById(id2);
 
         if (player1 == null || player2 == null) {
-            System.out.println("One or both player IDs are invalid.");
+            System.out.println("Ошибка: один или оба игрока не найдены.");
             return;
         }
 
+        // Получаем статистику игроков
         List<PlayerStat> stats1 = publicService.getStatsByPlayer(id1);
         List<PlayerStat> stats2 = publicService.getStatsByPlayer(id2);
 
-        int totalGoals1 = stats1.stream().mapToInt(PlayerStat::getGoals).sum();
-        int totalAssists1 = stats1.stream().mapToInt(PlayerStat::getAssists).sum();
-        int totalMinutes1 = stats1.stream().mapToInt(PlayerStat::getMinutes).sum();
-        double avgRating1 = stats1.stream().mapToDouble(PlayerStat::getRating).average().orElse(0);
+        int goals1 = stats1.stream().mapToInt(PlayerStat::getGoals).sum();
+        int goals2 = stats2.stream().mapToInt(PlayerStat::getGoals).sum();
+        int assists1 = stats1.stream().mapToInt(PlayerStat::getAssists).sum();
+        int assists2 = stats2.stream().mapToInt(PlayerStat::getAssists).sum();
+        double rating1 = stats1.stream().mapToDouble(PlayerStat::getRating).average().orElse(0);
+        double rating2 = stats2.stream().mapToDouble(PlayerStat::getRating).average().orElse(0);
 
-        int totalGoals2 = stats2.stream().mapToInt(PlayerStat::getGoals).sum();
-        int totalAssists2 = stats2.stream().mapToInt(PlayerStat::getAssists).sum();
-        int totalMinutes2 = stats2.stream().mapToInt(PlayerStat::getMinutes).sum();
-        double avgRating2 = stats2.stream().mapToDouble(PlayerStat::getRating).average().orElse(0);
-
-        System.out.println("\nComparison:");
-        System.out.printf("%-20s | %-15s | %-15s%n", "Stat", player1.getName(), player2.getName());
-        System.out.printf("%-20s | %-15d | %-15d%n", "Total Goals", totalGoals1, totalGoals2);
-        System.out.printf("%-20s | %-15d | %-15d%n", "Total Assists", totalAssists1, totalAssists2);
-        System.out.printf("%-20s | %-15d | %-15d%n", "Total Minutes", totalMinutes1, totalMinutes2);
-        System.out.printf("%-20s | %-15.2f | %-15.2f%n", "Average Rating", avgRating1, avgRating2);
+        // Печатаем сравнение
+        System.out.println("\nСравнение игроков:");
+        System.out.println(player1.getName() + " | " + player2.getName());
+        System.out.println("Голы: " + goals1 + " | " + goals2);
+        System.out.println("Ассисты: " + assists1 + " | " + assists2);
+        System.out.println("Средний рейтинг: " + String.format("%.2f", rating1)
+                           + " | " + String.format("%.2f", rating2));
 
     } catch (Exception e) {
-        System.out.println("Input error.");
+        System.out.println("Ошибка ввода.");
         scanner.nextLine();
     }
 }
