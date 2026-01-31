@@ -94,5 +94,17 @@ public class PublicService {
                 t -> t.getLeagueName() != null ? t.getLeagueName() : "Unknown League"
             ));
 }
+    public List<Player> getPlayersByPosition(String position) {
+    List<Player> allPlayers = playerRepo.findAll();
+    List<Player> filteredList = new ArrayList<>();
+
+    for (Player p : allPlayers) {
+        if (p.getPosition() != null &&
+            p.getPosition().equalsIgnoreCase(position)) {
+            filteredList.add(p);
+        }
+    }
+    return filteredList;
+}
 
 }
