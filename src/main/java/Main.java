@@ -68,6 +68,8 @@ public class Main {
                 System.out.println("10. CREATE Match");
                 System.out.println("11. Show Teams by League");
                 System.out.println("12. Search players by position");
+                System.out.println("13. Show top scorers");
+
 
             }
             System.out.println("0. EXIT");
@@ -142,6 +144,11 @@ public class Main {
                     case 12:
                         publicController.searchPlayersByPosition();
                         break;
+                    case 13:
+                        publicController.showTopScorers();
+                        break;
+
+
 
 
                     case 0:
