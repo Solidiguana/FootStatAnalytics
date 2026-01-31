@@ -72,6 +72,20 @@ public class PublicService {
     public PlayerStat getStatById(int id) {
         return statRepo.findById(id);
     }
+
+    public List<Player> getPlayersByPosition(String position) {
+    List<Player> allPlayers = playerRepo.findAll();
+    List<Player> filteredList = new ArrayList<>();
+
+    for (Player p : allPlayers) {
+        if (p.getPosition() != null &&
+            p.getPosition().equalsIgnoreCase(position)) {
+            filteredList.add(p);
+        }
+    }
+    return filteredList;
+}
+
     public Map<String, List<Team>> getTeamsGroupedByLeague() {
     List<Team> allTeams = teamRepo.findAll();
 
