@@ -117,14 +117,12 @@ public List<Player> getTopScorers(int topN) {
                      goalsMap.getOrDefault(stat.getPlayerId(), 0) + stat.getGoals());
     }
 
-    // Sort playerIds by total goals descending
     List<Integer> topPlayerIds = goalsMap.entrySet().stream()
             .sorted((a, b) -> b.getValue() - a.getValue())
             .limit(topN)
             .map(Map.Entry::getKey)
             .collect(Collectors.toList());
-
-    // Fetch Player objects
+    
     List<Player> topPlayers = new ArrayList<>();
     for (int pid : topPlayerIds) {
         Player player = playerRepo.findById(pid);
