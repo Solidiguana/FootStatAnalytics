@@ -192,7 +192,6 @@ public void compareTwoPlayers() {
         double rating1 = stats1.stream().mapToDouble(PlayerStat::getRating).average().orElse(0);
         double rating2 = stats2.stream().mapToDouble(PlayerStat::getRating).average().orElse(0);
 
-        // Печатаем сравнение
         System.out.println("\nCompare players:");
         System.out.println(player1.getName() + " | " + player2.getName());
         System.out.println("Goals: " + goals1 + " | " + goals2);
