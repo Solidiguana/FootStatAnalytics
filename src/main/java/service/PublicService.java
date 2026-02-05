@@ -107,7 +107,6 @@ public class PublicService {
     return filteredList;
 }
 public List<Player> getTopScorers(int topN) {
-    // Get all stats
     List<PlayerStat> allStats = statRepo.findAll();
     Map<Integer, Integer> goalsMap = new HashMap<>(); // playerId -> total goals
 
