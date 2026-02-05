@@ -111,7 +111,6 @@ public List<Player> getTopScorers(int topN) {
     List<PlayerStat> allStats = statRepo.findAll();
     Map<Integer, Integer> goalsMap = new HashMap<>(); // playerId -> total goals
 
-    // Sum goals for each player
     for (PlayerStat stat : allStats) {
         goalsMap.put(stat.getPlayerId(),
                      goalsMap.getOrDefault(stat.getPlayerId(), 0) + stat.getGoals());
