@@ -22,9 +22,13 @@ public class Team extends BaseEntity {
     public String getName() { return name; }
 
     @Override
-    public String toString() { return "ID: " + id + " | " + name + " (" + city + ")"; }
+    public String toString() { String lName = (leagueName != null) ? leagueName : "Unknown League";
+        return String.format("ID:%-3d | %-15s | %-10s | %s", id, name, city, lName);
+    }
 
     public String getCity() { return city; }
 
     public int getLeagueID() { return leagueId; }
+
+    public String getLeagueName() { return leagueName; }
 }

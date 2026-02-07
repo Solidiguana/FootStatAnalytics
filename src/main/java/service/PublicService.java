@@ -10,7 +10,10 @@ import repository.interfaces.IStatRepository;
 import repository.interfaces.ITeamRepository;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 public class PublicService {
     private final IPlayerRepository playerRepo;
@@ -71,5 +74,57 @@ public class PublicService {
 
     public PlayerStat getStatById(int id) {
         return statRepo.findById(id);
+    }
+
+    public List<Player> getPlayersByPosition(String position) {
+        List<Player> allPlayers = playerRepo.findAll();
+        List<Player> filteredList = new ArrayList<>();
+
+        for (Player p : allPlayers) {
+            if (p.getPosition() != null &&
+                    p.getPosition().equalsIgnoreCase(position)) {
+                filteredList.add(p);
+            }
+        }
+        return filteredList;
+    }
+
+    public Map<String, List<Team>> getTeamsGroupedByLeague() {
+        List<Team> allTeams = teamRepo.findAll();
+
+        return allTeams.stream()
+                .collect(Collectors.groupingBy(team ->
+                        team.getLeagueName() != null ? team.getLeagueName() : "No League"
+                ));
+    }
+
+    public List<Player> getTopScorers(int topN) {
+        List<PlayerStat> allStats = statRepo.findAll();
+        Map<Integer, Integer> goalsMap = new HashMap<>();
+
+        for (PlayerStat stat : allStats) {
+            goalsMap.put(stat.getPlayerId(),
+                    goalsMap.getOrDefault(stat.getPlayerId(), 0) + stat.getGoals());
+        }
+
+        List<Integer> topPlayerIds = goalsMap.entrySet().stream()
+                .sorted((a, b) -> b.getValue() - a.getValue())
+                .limit(topN)
+                .map(Map.Entry::getKey)
+                .toList();
+
+        List<Player> topPlayers = new ArrayList<>();
+        for (int pid : topPlayerIds) {
+            Player player = playerRepo.findById(pid);
+            if (player != null) topPlayers.add(player);
+        }
+
+        return topPlayers;
+    }
+
+    public List<PlayerStat> getStatsByPlayer(int playerId) {
+        return statRepo.findAll().stream()
+                .filter(stat -> stat.getPlayerId() == playerId)
+                .collect(Collectors.toList());
     }
 }

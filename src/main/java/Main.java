@@ -28,7 +28,7 @@ public class Main {
         User currentUser = null;
 
         System.out.println("==========================================");
-        System.out.println("          FOOTSTAT ANALYTICS V2.0         ");
+        System.out.println("          FOOTSTAT ANALYTICS V3.0         ");
         System.out.println("==========================================");
 
         while (currentUser == null) {
@@ -58,6 +58,10 @@ public class Main {
             System.out.println("4. Search specific data by ID");
             System.out.println("5. Filter Players by Exact Team Name");
             System.out.println("6. View All Statistics");
+            System.out.println("11. Show Teams by League");
+            System.out.println("12. Search players by position");
+            System.out.println("13. Show top scorers");
+            System.out.println("14. Compare two players");
 
             if (SecurityService.hasAccess(currentUser, "ADMIN", "ANALYST")) {
                 System.out.println("7. Input Stats");
@@ -96,6 +100,7 @@ public class Main {
                             switch (searchMenu) {
                                 default:
                                     System.out.println("Invalid choice");
+                                    break;
                                 case 1:
                                     publicController.findTeamById();
                                     break;
@@ -132,6 +137,19 @@ public class Main {
                         break;
                     case 10:
                         adminController.createMatch(currentUser);
+                        break;
+
+                    case 11:
+                        publicController.showTeamsByLeague();
+                        break;
+                    case 12:
+                        publicController.searchPlayersByPosition();
+                        break;
+                    case 13:
+                        publicController.showTopScorers();
+                        break;
+                    case 14:
+                        publicController.compareTwoPlayers();
                         break;
 
                     case 0:

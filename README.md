@@ -26,31 +26,3 @@ The database consists of 5 related tables:
 3.  **Players:** Linked to Teams.
 4.  **Matches:** Links Home/Away Teams and Date.
 5.  **Player_Stats:** Linked to Matches & Players (Contains the calculated Rating).
-
----
-
-## 3.
-
-### Folder Hierarchy
-```text
-src/main/java/
-├── config/    
-├── controller/     
-│   ├── AdminController.java
-│   ├── AuthController.java
-│   ├── PublicController.java
-│   └── StatController.java
-├── entity/      
-│   ├── BaseEntity.java
-│   ├── User.java
-│   ├── Player.java
-│   └── ...
-├── repository/     
-│   ├── IRepository.java 
-│   ├── PlayerRepository.java
-│   └── ...
-├── service/           
-│   ├── AuthService.java
-│   ├── SecurityService.java
-│   └── StatService.java
-└── Main.java     

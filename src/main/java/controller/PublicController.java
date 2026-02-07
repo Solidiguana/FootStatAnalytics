@@ -5,6 +5,7 @@ import entity.Player;
 import entity.PlayerStat;
 import entity.Team;
 import service.PublicService;
+
 import java.util.List;
 import java.util.Scanner;
 
@@ -99,10 +100,10 @@ public class PublicController {
     public void searchPlayersByTeam() {
         System.out.println("\n--- SEARCH BY TEAM NAME ---");
         try {
-            System.out.print("Enter team name: ");
+            System.out.print("Enter team name(without spaces): ");
             String teamName = scanner.next();
 
-            var results = publicService.getPlayersByTeamFiltered(teamName);
+            List<Player> results = publicService.getPlayersByTeamFiltered(teamName);
             if (results!=null) {
                 System.out.println(teamName+ " roster: ");
                 results.forEach(System.out::println);
@@ -117,4 +118,94 @@ public class PublicController {
         System.out.println("\n--- ALL PLAYER STATISTICS ---");
         publicService.getAllStats().forEach(System.out::println);
     }
+
+    public void searchPlayersByPosition() {
+        System.out.println("\n--- SEARCH PLAYERS BY POSITION ---");
+        try {
+            System.out.print("Enter position (e.g., Forward, Midfielder, Goalkeeper): ");
+            String pos = scanner.next();
+
+            List<Player> results = publicService.getPlayersByPosition(pos);
+
+            if (results != null && !results.isEmpty()) {
+                System.out.println("Players in position '" + pos + "':");
+                results.forEach(System.out::println);
+            } else {
+                System.out.println("No players found in this position.");
+            }
+        } catch (Exception e) {
+            System.out.println("Input error. Try again.");
+        }
+    }
+
+    public void showTeamsByLeague() {
+        System.out.println("\n--- TEAMS BY LEAGUE ---");
+        publicService.getTeamsGroupedByLeague().forEach((leagueName, teams) -> {
+            System.out.println("League: " + leagueName);
+            teams.forEach(t -> System.out.println("   " + t));
+        });
+    }
+
+    public void showTopScorers() {
+        System.out.println("\n--- TOP SCORERS ---");
+        try {
+            System.out.print("How many top scorers to show? ");
+            int n = scanner.nextInt();
+
+            List<Player> topPlayers = publicService.getTopScorers(n);
+            if (topPlayers.isEmpty()) {
+                System.out.println("No player stats available.");
+                return;
+            }
+
+            int rank = 1;
+            for (Player p : topPlayers) {
+                System.out.println(rank + ". " + p);
+                rank++;
+            }
+        } catch (Exception e) {
+            System.out.println("Input error.");
+        }
+    }
+
+    public void compareTwoPlayers() {
+        System.out.println("\n Compare two players ");
+        try {
+            System.out.print("First player ID: ");
+            int id1 = scanner.nextInt();
+            System.out.print("Second player ID: ");
+            int id2 = scanner.nextInt();
+
+            var player1 = publicService.getPlayerById(id1);
+            var player2 = publicService.getPlayerById(id2);
+
+            if (player1 == null || player2 == null) {
+                System.out.println("Error: The players not found.");
+                return;
+            }
+
+            List<PlayerStat> stats1 = publicService.getStatsByPlayer(id1);
+            List<PlayerStat> stats2 = publicService.getStatsByPlayer(id2);
+
+            int goals1 = stats1.stream().mapToInt(PlayerStat::getGoals).sum();
+            int goals2 = stats2.stream().mapToInt(PlayerStat::getGoals).sum();
+            int assists1 = stats1.stream().mapToInt(PlayerStat::getAssists).sum();
+            int assists2 = stats2.stream().mapToInt(PlayerStat::getAssists).sum();
+            double rating1 = stats1.stream().mapToDouble(PlayerStat::getRating).average().orElse(0);
+            double rating2 = stats2.stream().mapToDouble(PlayerStat::getRating).average().orElse(0);
+
+            System.out.println("\nCompare players:");
+            System.out.println(player1.getName() + " | " + player2.getName());
+            System.out.println("Goals: " + goals1 + " | " + goals2);
+            System.out.println("Assists: " + assists1 + " | " + assists2);
+            System.out.println("Avg rating: " + String.format("%.2f", rating1)
+                    + " | " + String.format("%.2f", rating2));
+
+        } catch (Exception e) {
+            System.out.println("Input error.");
+        }
+    }
+
+
+
 }
