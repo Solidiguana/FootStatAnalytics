@@ -14,9 +14,10 @@ public class Main {
         IPlayerRepository playerRepo = new PlayerRepository();
         IMatchRepository matchRepo = new MatchRepository();
         IStatRepository statRepo = new StatRepository();
+        ILeagueRepository leagueRepo = new LeagueRepository();
 
         AuthService authService = new AuthService(userRepo);
-        AdminService adminService = new AdminService(teamRepo, playerRepo, matchRepo);
+        AdminService adminService = new AdminService(teamRepo, playerRepo, matchRepo, leagueRepo);
         PublicService publicService = new PublicService(playerRepo, teamRepo, matchRepo, statRepo);
         StatService statService = new StatService(statRepo, playerRepo);
 
@@ -70,6 +71,8 @@ public class Main {
                 System.out.println("8. ADD Team");
                 System.out.println("9. ADD Player");
                 System.out.println("10. CREATE Match");
+                System.out.println("15. Create League");
+                System.out.println("16. Transfer Player");
             }
             System.out.println("0. EXIT");
             System.out.print("> ");
@@ -137,6 +140,14 @@ public class Main {
                         break;
                     case 10:
                         adminController.createMatch(currentUser);
+                        break;
+
+                    case 15:
+                        adminController.createLeague(currentUser);
+                        break;
+
+                    case 16:
+                        adminController.transferPlayer(currentUser);
                         break;
 
                     case 11:

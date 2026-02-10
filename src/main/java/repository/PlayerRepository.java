@@ -85,4 +85,17 @@ public class PlayerRepository implements IPlayerRepository {
         } catch (SQLException e) { e.printStackTrace(); }
         return list;
     }
+
+    @Override
+    public boolean updatePlayerTeam(int playerId, int newTeamId) {
+        String sql = "UPDATE players SET team_id = ? WHERE id = ?";
+        try (PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setInt(1, newTeamId);
+            ps.setInt(2, playerId);
+            return ps.executeUpdate() > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
 }

@@ -82,4 +82,44 @@ public class AdminController {
             scanner.nextLine();
         }
     }
+
+    public void createLeague(User user) {
+        if (!SecurityService.hasAccess(user, "ADMIN")) {
+            System.out.println("ACCESS DENIED: ADMIN ONLY.");
+            return;
+        }
+        try {
+            System.out.print("LEAGUE NAME (e.g. Bundesliga): ");
+            String name = scanner.next();
+
+            System.out.print("COUNTRY (e.g. Germany): ");
+            String country = scanner.next();
+
+            System.out.println(adminService.createLeague(name, country));
+        } catch (Exception e) {
+            System.out.println("Input Error.");
+            scanner.nextLine();
+        }
+    }
+
+    public void transferPlayer(User user) {
+        if (!SecurityService.hasAccess(user, "ADMIN")) {
+            System.out.println("ACCESS DENIED: ADMIN ONLY.");
+            return;
+        }
+        try {
+            System.out.println("\n--- TRANSFER MARKET ---");
+
+            System.out.print("Enter Player ID to Transfer: ");
+            int pid = scanner.nextInt();
+
+            System.out.print("Enter New Team ID: ");
+            int tid = scanner.nextInt();
+            System.out.println(adminService.transferPlayer(pid, tid));
+
+        } catch (Exception e) {
+            System.out.println("Input Error: IDs must be numbers.");
+            scanner.nextLine();
+        }
+    }
 }
